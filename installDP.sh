@@ -8,5 +8,4 @@ DEPLOY="Deploying -->"
 sudo docker login $REGISTRY -p $USERNAME -u $PASSWORD
 
 echo "$PULL $SERVICE"
-sudo docker pull $REGISTRY/$SERVICE-microservice-public:latest
-
+sudo docker pull $REGISTRY/dp/$SERVICE-microservice-public:latest
