@@ -8,12 +8,13 @@ service=$1
 port=$2
 networkMode=$3
 REGISTRY=$4
+mem=$5
 if [ "$networkMode" == "host" ]; then
     echo "$DEPLOY users with host's IP"
-    sudo docker run -d -e SPRING_PROFILES_ACTIVE=dev --net=host -p $port:$port -p $(($port+1)):$(($port+1)) --memory=896m --name users -t $REGISTRY/dp/"${service}"-microservice-public:latest
+    sudo docker run -d -e SPRING_PROFILES_ACTIVE=dev --net=host -p $port:$port -p $(($port+1)):$(($port+1)) --memory=$(echo "$mem * 1.1" | bc -l | xargs printf "%.0f")m --env "JAVA_OPTS=-Xmx${mem}m -XX:-HeapDumpOnOutOfMemoryError" --name users -t $REGISTRY/dp/"${service}"-microservice-public:latest
 else
     echo "$DEPLOY users with dockers's IP"
-    sudo docker run -d -e SPRING_PROFILES_ACTIVE=dev -p $port:$port -p $(($port+1)):$(($port+1)) --memory=896m --name users -t $REGISTRY/dp/"${service}"-microservice-public:latest
+    sudo docker run -d -e SPRING_PROFILES_ACTIVE=dev -p $port:$port -p $(($port+1)):$(($port+1)) --memory=$(echo "$mem * 1.1" | bc -l | xargs printf "%.0f")m --env "JAVA_OPTS=-Xmx${mem}m -XX:-HeapDumpOnOutOfMemoryError" --name users -t $REGISTRY/dp/"${service}"-microservice-public:latest
 fi
 # echo "$DEPLOY products"
 # sudo docker run -d -e SPRING_PROFILES_ACTIVE=dev --net=host -p 9700:9700 -p 9701:9701 --memory=896m --name products -t $REGISTRY/dp/products-microservice-public:latest
