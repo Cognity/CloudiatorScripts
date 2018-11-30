@@ -9,6 +9,7 @@ install() {
 sudo -E add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo -E apt-get -y update
 sudo -E apt-get -y --allow-unauthenticated install docker-ce
+sudo -E apt-get install bc
 
 }
 
